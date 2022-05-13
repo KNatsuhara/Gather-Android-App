@@ -2,6 +2,7 @@ package com.example.androidloginapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -32,10 +33,18 @@ public class MainActivity extends AppCompatActivity {
                 {
                     // Admin Login
                     Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                    openMainPage();
                 } else {
                     Toast.makeText(MainActivity.this, "LOGIN FAILED", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
+    public void openMainPage()
+    {
+        Intent intent = new Intent(this, MainPage.class);
+        startActivity(intent);
+    }
+
 }
