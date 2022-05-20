@@ -1,5 +1,6 @@
 package com.example.androidloginapplication;
 
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,7 +11,20 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class MainActivity extends AppCompatActivity {
+
+    public static final String database = "postgres";
+    public static final String host = "gather-database.cydodwb7rnr2.us-west-2.rds.amazonaws.com";
+    public static final int port = 5432;
+    public static final String usernameDB = "postgres";
+    public static final String passwordDB = "AnfieldNight2666$";
+    public static final String url = "jdbc:postgresql://gather-database.cydodwb7rnr2.us-west-2.rds.amazonaws.com:6432/gatherdb";
+
+    Connection connect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +43,68 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin"))
-                {
-                    // Admin Login
-                    Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
-                    openMainPage();
-                } else {
-                    Toast.makeText(MainActivity.this, "LOGIN FAILED", Toast.LENGTH_SHORT).show();
-                }
+                checkForUserPassword();
             }
         });
     }
+
+    public void showToast(final String toast)
+    {
+        runOnUiThread(() -> Toast.makeText(MainActivity.this, toast, Toast.LENGTH_SHORT).show());
+    }
+
+    public void checkForUserPassword()
+    {
+        new Thread(() -> {
+        TextView username = (TextView) findViewById(R.id.username);
+        TextView password = (TextView) findViewById(R.id.password);
+
+        String userAccount = username.getText().toString();
+        String passAccount = password.getText().toString();
+
+        String userPassword = "";
+
+        try {
+            System.out.println("BEFORE DATABASE");
+            Database db = new Database();
+            System.out.println("AFTER DATABASE");
+            connect = db.getConnection();
+
+            if (connect != null)
+            {
+                System.out.println("VALIDATING CREDENTIALS...");
+                String query = "SELECT password FROM Users WHERE Users.username = '" + userAccount + "';";
+                System.out.println(query);
+                Statement statement = connect.createStatement();
+                System.out.println("Created statement");
+
+                ResultSet rs = statement.executeQuery(query);
+                while (rs.next()) {
+                    System.out.println(rs.getString(1));
+                    userPassword = rs.getString(1);
+                }
+
+                System.out.println("EXECUTED QUERY");
+                System.out.println("Expected: " + userPassword);
+                System.out.println("Input: " + passAccount);
+
+                if (userPassword.equals(passAccount))
+                {
+                    // Admin Login
+                    showToast("LOGIN SUCCESSFUL");
+                    openMainPage();
+                } else {
+                    showToast("LOGIN FAILED");
+                }
+            }
+            connect.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        }).start();
+    }
+
 
     public void openMainPage()
     {

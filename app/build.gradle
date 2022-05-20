@@ -35,4 +35,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Compatible version to run AWS RDS MySQL with Android Studio properly
+    implementation 'org.postgresql:postgresql:42.2.5'
 }
