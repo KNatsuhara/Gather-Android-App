@@ -1,4 +1,4 @@
-package com.example.androidloginapplication;
+package com.example.Gather;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.example.androidloginapplication;
+package com.example.Gather;
 import java.sql.Connection;
 import java.sql.DriverManager;
 

@@ -1,6 +1,5 @@
-package com.example.androidloginapplication;
+package com.example.Gather;
 
-import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Expected: " + userPassword);
                 System.out.println("Input: " + passAccount);
 
-                if (userPassword.equals(passAccount))
+                if (userPassword.equals(passAccount) && !userAccount.equals(""))
                 {
                     // Admin Login
                     showToast("LOGIN SUCCESSFUL");

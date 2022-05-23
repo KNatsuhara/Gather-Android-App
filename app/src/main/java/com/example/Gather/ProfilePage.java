@@ -1,14 +1,14 @@
-package com.example.androidloginapplication;
+package com.example.Gather;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainPage extends AppCompatActivity {
+public class ProfilePage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page);
+        setContentView(R.layout.activity_profile_page);
     }
 }

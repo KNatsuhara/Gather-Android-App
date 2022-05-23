@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/drawable-v24/ic_baseline_person_outline_24.xml" value="0.317" />
-        <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/layout/activity_main.xml" value="0.42916666666666664" />
-        <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/layout/activity_main_page.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/drawable/background_splash.xml" value="0.2585" />
+        <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/drawable/ic_baseline_people_24.xml" value="0.2595" />
+        <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/layout/activity_main_page.xml" value="0.4597291518175339" />
+        <entry key="..\:/Android Projects/AndroidLoginApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1305" />
       </map>
     </option>
   </component>
