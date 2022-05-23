@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     // Admin Login
                     showToast("LOGIN SUCCESSFUL");
-                    openMainPage();
+                    openMainPage(userAccount);
                 } else {
                     showToast("LOGIN FAILED");
                 }
@@ -105,9 +105,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void openMainPage()
+    public void openMainPage(String username)
     {
         Intent intent = new Intent(this, MainPage.class);
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 
