@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView username = (TextView) findViewById(R.id.username);
         TextView password = (TextView) findViewById(R.id.password);
+        TextView register = (TextView) findViewById(R.id.register_here);
 
         MaterialButton loginbtn = (MaterialButton) findViewById(R.id.loginbtn);
 
@@ -45,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
                 checkForUserPassword();
             }
         });
+
+        register.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                openRegisterProfilePage();
+            }
+        });
+
+
     }
 
     public void showToast(final String toast)
@@ -109,6 +121,12 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, MainPage.class);
         intent.putExtra("username", username);
+        startActivity(intent);
+    }
+
+    public void openRegisterProfilePage()
+    {
+        Intent intent = new Intent(this, RegisterProfilePage.class);
         startActivity(intent);
     }
 

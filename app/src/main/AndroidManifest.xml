@@ -17,10 +17,13 @@
         android:theme="@style/Theme.AndroidLoginApplication"
         tools:targetApi="31">
         <activity
-            android:name="com.example.Gather.ProfilePage"
+            android:name=".RegisterProfilePage"
             android:exported="false" />
         <activity
-            android:name="com.example.Gather.SplashScreen"
+            android:name=".ProfilePage"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -30,10 +33,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Gather.MainPage"
+            android:name=".MainPage"
             android:exported="false" />
         <activity
-            android:name="com.example.Gather.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

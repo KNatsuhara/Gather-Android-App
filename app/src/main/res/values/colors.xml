@@ -5,10 +5,12 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="blue">#015187</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFF</color>
     <color name="white_smoke">#f7f7f0</color>
     <color name="pale_green">#a6f6d3</color>
     <color name="pale_green_darker">#62C59A</color>
     <color name="pale_green_pages">#6ED8AA</color>
+    <color name="green_page">#55B152</color>
 </resources>
