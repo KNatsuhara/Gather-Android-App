@@ -13,4 +13,6 @@
     <color name="pale_green_darker">#62C59A</color>
     <color name="pale_green_pages">#6ED8AA</color>
     <color name="green_page">#55B152</color>
+    <color name="dark_green">#27784E</color>
+    <color name="red">#FF1A1A</color>
 </resources>

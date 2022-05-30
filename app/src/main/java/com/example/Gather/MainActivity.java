@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         MaterialButton loginbtn = (MaterialButton) findViewById(R.id.loginbtn);
 
-        // admin and admin
-
+        // On click listener for login button
         loginbtn.setOnClickListener(new View.OnClickListener()
         {
             @Override

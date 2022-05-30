@@ -2,11 +2,18 @@ package com.example.Gather;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
@@ -17,9 +24,9 @@ public class ProfilePage extends AppCompatActivity {
     public String PASSWORD;
     public String FIRSTNAME;
     public String LASTNAME;
-    public String FULLNAME;
     public String DATE;
     Connection connect;
+    private Button buttonShowDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +47,44 @@ public class ProfilePage extends AppCompatActivity {
         System.out.println("username: " + USERNAME);
 
         populateProfilePage();
+
+        Button edit_button = (Button) findViewById(R.id.button);
+        Button delete_button = (Button) findViewById(R.id.delete_button);
+
+        edit_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                updateProfile();
+            }
+        });
+
+        showDeleteConfirmation();
+    }
+
+    public void showToast(final String toast)
+    {
+        runOnUiThread(() -> Toast.makeText(ProfilePage.this, toast, Toast.LENGTH_SHORT).show());
+    }
+
+    public void deleteProfile()
+    {
+        showToast("DELETED PROFILE");
+        openSignUpPage();
+    }
+
+    public void updateProfile()
+    {
+        showToast("UPDATED PROFILE");
     }
 
     public void populateProfilePage()
     {
         new Thread(() -> {
-            TextView username_text_view = (TextView) findViewById(R.id.profile_username_plain_text);
-            TextView name_text_view = (TextView) findViewById(R.id.profile_name_plain_text);
-            TextView password_text_view = (TextView) findViewById(R.id.profile_password_plain_text);
+            EditText username_text_view = (EditText) findViewById(R.id.profile_username_plain_text);
+            EditText name_text_view = (EditText) findViewById(R.id.profile_name_plain_text);
+            EditText password_text_view = (EditText) findViewById(R.id.profile_password_plain_text);
             TextView date_text_view = (TextView) findViewById(R.id.profile_date_joined_plain_text);
             TextView group_in_text_view = (TextView) findViewById(R.id.profile_groups_in_plain_text);
 
@@ -68,20 +105,21 @@ public class ProfilePage extends AppCompatActivity {
 
                     ResultSet rs = statement.executeQuery(query);
                     while (rs.next()) {
-                        System.out.println("1:" + rs.getString(1));
-                        System.out.println("2:" + rs.getString(2));
-                        System.out.println("3:" + rs.getString(3));
-                        System.out.println("4:" + rs.getString(4));
+//                        System.out.println("1:" + rs.getString(1));
+//                        System.out.println("2:" + rs.getString(2));
+//                        System.out.println("3:" + rs.getString(3));
+//                        System.out.println("4:" + rs.getString(4));
                         PASSWORD = rs.getString(1);
                         FIRSTNAME = rs.getString(2);
                         LASTNAME = rs.getString(3);
                         DATE = rs.getString(4);
                     }
                     System.out.println("EXECUTED QUERY");
-                    FULLNAME = FIRSTNAME + " " + LASTNAME;
-                    name_text_view.setText(FULLNAME);
-                    password_text_view.setText(PASSWORD);
-                    date_text_view.setText(DATE);
+
+                    System.out.println(PASSWORD);
+                    System.out.println(DATE);
+                    System.out.println(FIRSTNAME + " " + LASTNAME);
+
 
                     // USER IN GROUPS
                     query = "SELECT group_name, date_joined  FROM UserInGroup WHERE username = '" + USERNAME + "';";
@@ -106,9 +144,53 @@ public class ProfilePage extends AppCompatActivity {
                 @Override
                 public void run() {
                     // after the job is finished:
+                    name_text_view.setText(FIRSTNAME + " " + LASTNAME);
+                    password_text_view.setText(PASSWORD);
+                    date_text_view.setText(DATE);
                     group_in_text_view.setText(group_name_list.toString());
                 }
             });
         }).start();
     }
+
+    public void openSignUpPage()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finishAffinity();
+    }
+
+    private void showDeleteConfirmation() {
+        buttonShowDialog = findViewById(R.id.delete_button);
+        buttonShowDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonShowDialog_onClick(view);
+            }
+        });
+    }
+
+    private void buttonShowDialog_onClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Delete Profile");
+        builder.setMessage("Are you sure?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Toast.makeText(getApplicationContext(),"Ok", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+                deleteProfile();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
 }
