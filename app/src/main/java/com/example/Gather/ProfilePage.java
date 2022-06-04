@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -46,21 +48,9 @@ public class ProfilePage extends AppCompatActivity {
 
         System.out.println("username: " + USERNAME);
 
-        populateProfilePage();
-
-        Button edit_button = (Button) findViewById(R.id.button);
-        Button delete_button = (Button) findViewById(R.id.delete_button);
-
-        edit_button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                updateProfile();
-            }
-        });
-
-        showDeleteConfirmation();
+        populateProfilePage(); // Populate Profile Attribute Fields
+        showUpdateConfirmation(); // Update Button Trigger
+        showDeleteConfirmation(); // Delete Button Trigger
     }
 
     public void showToast(final String toast)
@@ -70,19 +60,80 @@ public class ProfilePage extends AppCompatActivity {
 
     public void deleteProfile()
     {
+        new Thread(() -> {
+            TextView username_text_view = (TextView) findViewById(R.id.profile_username_plain_text);
+
+            USERNAME = username_text_view.getText().toString();
+
+            try {
+                Database db = new Database();
+                connect = db.getConnection();
+
+                if (connect != null)
+                {
+                    // DELETE PROFILE WITH USERNAME
+                    String query = "DELETE FROM Users WHERE username = '"+ USERNAME +"';";
+                    System.out.println(query);
+                    Statement statement = connect.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                }
+                connect.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         showToast("DELETED PROFILE");
         openSignUpPage();
     }
 
     public void updateProfile()
     {
+        new Thread(() -> {
+            TextView username_text_view = (TextView) findViewById(R.id.profile_username_plain_text);
+            EditText name_text_view = (EditText) findViewById(R.id.profile_name_plain_text);
+            EditText password_text_view = (EditText) findViewById(R.id.profile_password_plain_text);
+
+            USERNAME = username_text_view.getText().toString();
+            String FULL = name_text_view.getText().toString();
+            String NAMES[] = FULL.split(" ", 2);
+            FIRSTNAME = NAMES[0];
+            LASTNAME = NAMES[1];
+            PASSWORD = password_text_view.getText().toString();
+
+            if (PASSWORD.isEmpty())
+            {
+                showToast("Password field cannot be empty!");
+                return;
+            }
+
+            try {
+                Database db = new Database();
+                connect = db.getConnection();
+
+                if (connect != null)
+                {
+                    // UPDATE PROFILE DETAILS WITH NEW FIRST, LAST, AND PASSWORD
+                    String query = "UPDATE Users SET password = '" + PASSWORD + "', first_name = '"+ FIRSTNAME + "', last_name = '"+ LASTNAME +"' WHERE username = '"+ USERNAME +"';";
+                    System.out.println(query);
+                    Statement statement = connect.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                }
+                connect.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         showToast("UPDATED PROFILE");
     }
 
     public void populateProfilePage()
     {
         new Thread(() -> {
-            EditText username_text_view = (EditText) findViewById(R.id.profile_username_plain_text);
+            TextView username_text_view = (TextView) findViewById(R.id.profile_username_plain_text);
             EditText name_text_view = (EditText) findViewById(R.id.profile_name_plain_text);
             EditText password_text_view = (EditText) findViewById(R.id.profile_password_plain_text);
             TextView date_text_view = (TextView) findViewById(R.id.profile_date_joined_plain_text);
@@ -105,10 +156,6 @@ public class ProfilePage extends AppCompatActivity {
 
                     ResultSet rs = statement.executeQuery(query);
                     while (rs.next()) {
-//                        System.out.println("1:" + rs.getString(1));
-//                        System.out.println("2:" + rs.getString(2));
-//                        System.out.println("3:" + rs.getString(3));
-//                        System.out.println("4:" + rs.getString(4));
                         PASSWORD = rs.getString(1);
                         FIRSTNAME = rs.getString(2);
                         LASTNAME = rs.getString(3);
@@ -181,6 +228,39 @@ public class ProfilePage extends AppCompatActivity {
                 // Toast.makeText(getApplicationContext(),"Ok", Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
                 deleteProfile();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void showUpdateConfirmation() {
+        buttonShowDialog = findViewById(R.id.button);
+        buttonShowDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateShowDialog(view);
+            }
+        });
+    }
+
+    private void updateShowDialog(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Update Profile");
+        builder.setMessage("Are you sure?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Toast.makeText(getApplicationContext(),"Ok", Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+                updateProfile();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
