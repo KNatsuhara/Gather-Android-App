@@ -4,23 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.os.Handler;
+import android.os.Message;
 
-import java.security.acl.Group;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.xml.transform.Result;
-
-public class GroupPage extends AppCompatActivity {
-
+public class GroupPage extends AppCompatActivity implements GM_RecyclerViewInterface{
     public String USERNAME;
     public Connection connect;
     public ArrayList<GroupModel> groupModels = new ArrayList<>();
+    private Boolean COMPLETED = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +36,15 @@ public class GroupPage extends AppCompatActivity {
             USERNAME = (String) savedInstanceState.getSerializable("username");
         }
 
+
         setUpGroupModels();
 
-        new Thread(() -> {
-            RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
-            GM_RecyclerViewAdapter adapter = new GM_RecyclerViewAdapter(this, groupModels);
-            recyclerView.setAdapter((adapter));
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        }).start();
+//        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
+//        GM_RecyclerViewAdapter adapter = new GM_RecyclerViewAdapter(this, groupModels, this);
+//        recyclerView.setAdapter((adapter));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // groupModels.add(new GroupModel("BestGroup"));
     }
 
     private void setUpGroupModels() {
@@ -69,19 +67,29 @@ public class GroupPage extends AppCompatActivity {
                     System.out.println("EXECUTED QUERY");
                 }
                 connect.close();
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    // after the job is finished:
                     RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
-                    GM_RecyclerViewAdapter adapter = new GM_RecyclerViewAdapter(GroupPage.this, groupModels);
+                    GM_RecyclerViewAdapter adapter = new GM_RecyclerViewAdapter(GroupPage.this, groupModels, GroupPage.this);
                     recyclerView.setAdapter((adapter));
                     recyclerView.setLayoutManager(new LinearLayoutManager(GroupPage.this));
                 }
             });
+
         }).start();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(this, GroupDetailsPage.class);
+
+        intent.putExtra("NAME", groupModels.get(position).getGroupName());
+
+        startActivity(intent);
     }
 }
