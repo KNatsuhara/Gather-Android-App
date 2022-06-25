@@ -59,6 +59,28 @@ public class MainPage extends AppCompatActivity {
                 openGroupPage();
             }
         });
+
+        // OPENING ADD ITEM PAGE
+        item_card.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                System.out.println("Username: " + USERNAME);
+                openItemPage();
+            }
+        });
+
+        // OPENING ADD ITEM PAGE
+        inventory_card.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                System.out.println("Username: " + USERNAME);
+                openInventoryPage();
+            }
+        });
     }
 
     public void openProfilePage()
@@ -71,6 +93,19 @@ public class MainPage extends AppCompatActivity {
     public void openGroupPage()
     {
         Intent intent = new Intent(this, GroupPage.class);
+        intent.putExtra("username", USERNAME);
+        startActivity(intent);
+    }
+
+    public void openItemPage()
+    {
+        Intent intent = new Intent(this, AddItemPage.class);
+        intent.putExtra("username", USERNAME);
+        startActivity(intent);
+    }
+    public void openInventoryPage()
+    {
+        Intent intent = new Intent(this, InventoryPage.class);
         intent.putExtra("username", USERNAME);
         startActivity(intent);
     }

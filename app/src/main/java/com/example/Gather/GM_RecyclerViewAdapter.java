@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -46,7 +48,15 @@ public class GM_RecyclerViewAdapter extends RecyclerView.Adapter<GM_RecyclerView
         // based on the position of the recycler view
 
         holder.tvName.setText(groupModels.get(position).getGroupName());
-        holder.tButton.setChecked(false);
+
+        if (groupModels.get(position).getViewStatus().equals("show"))
+        {
+            holder.tButton.setChecked(true);
+        }
+        else
+        {
+            holder.tButton.setChecked(false);
+        }
     }
 
     @Override
@@ -76,6 +86,26 @@ public class GM_RecyclerViewAdapter extends RecyclerView.Adapter<GM_RecyclerView
 
                         if (pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
+
+            tButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    if (recyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION) {
+                            if (isChecked) {
+                                recyclerViewInterface.onToggleClick(pos);
+                                // The toggle is enabled
+                            } else {
+                                recyclerViewInterface.offToggleClick(pos);
+                                // The toggle is disabled
+                            }
+                            // recyclerViewInterface.onItemClick(pos);
                         }
                     }
                 }
