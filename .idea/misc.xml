@@ -14,7 +14,7 @@
         <entry key="..\:/Android Projects/Gather/app/src/main/res/drawable/edit_text_bg.xml" value="0.1965" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/drawable/thumb.xml" value="0.526" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/drawable/track.xml" value="0.526" />
-        <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_add_item_page.xml" value="0.33541666666666664" />
+        <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_add_item_page.xml" value="0.23281853281853282" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_group_details_page.xml" value="0.3140625" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_group_page.xml" value="0.27447916666666666" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_inventory_page.xml" value="0.32135416666666666" />
@@ -22,6 +22,7 @@
         <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_main_page.xml" value="0.42916666666666664" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_profile_page.xml" value="0.3359375" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/activity_register_profile_page.xml" value="0.264" />
+        <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/list_item.xml" value="0.553125" />
         <entry key="..\:/Android Projects/Gather/app/src/main/res/layout/recycler_view_row.xml" value="0.264" />
       </map>
     </option>

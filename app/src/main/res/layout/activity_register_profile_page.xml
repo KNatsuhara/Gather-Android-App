@@ -33,8 +33,6 @@
         app:layout_constraintTop_toTopOf="@+id/profile_banner">
     </TextView>
 
-
-
     <EditText
         android:id="@+id/create_profile_username"
         android:layout_width="wrap_content"
