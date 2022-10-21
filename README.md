@@ -15,3 +15,5 @@ set of items and chores that users can view and update.
 A user will be able to login or register an account on the gather database. They will also be able to update or delete their profile.
 A user can view what groups they are in and toggle what inventories or chores they want to view from each group.
 A user will also be able to add an item to their group and update the group's inventory.
+
+A user can now view a group (that they are in) inventory
