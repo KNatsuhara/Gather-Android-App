@@ -36,6 +36,7 @@ public class AddItemPage extends AppCompatActivity {
     private String item_name, item_brand, item_group, item_category, item_expiration_date, item_updated_date;
     private Integer item_barcode, item_quantity, item_priority, item_rating;
     private Double item_percentage, item_price;
+    private String insertQuery;
     DatePickerDialog.OnDateSetListener setListener;
 
     private String item_type = "item";
@@ -273,22 +274,6 @@ public class AddItemPage extends AppCompatActivity {
                     System.out.println(e);
                 }
 
-                System.out.println("Item Name: " + item_name);
-                System.out.println("Item Brand: " + item_brand);
-                System.out.println("Item Group: " + item_group);
-                System.out.println("Item Category: " + item_category);
-                System.out.println("Item Quantity: " + item_quantity);
-                System.out.println("Item Barcode: " + item_barcode);
-                System.out.println("Item Priority: " + item_priority);
-                System.out.println("Item Rating: " + item_rating);
-                System.out.println("Item Percentage: " + item_percentage);
-                System.out.println("Item Price: " + item_price);
-                System.out.println("Item Expiration Date: " + item_expiration_date);
-                System.out.println("Username: " + USERNAME);
-                System.out.println("Update Date: " + item_updated_date);
-                System.out.println("Item Type: " + item_type);
-
-
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                     LocalDate time = LocalDate.now();
                     item_updated_date = time.toString();
@@ -329,6 +314,16 @@ public class AddItemPage extends AppCompatActivity {
                     return;
                 }
 
+                if (item_expiration_date.isEmpty())
+                {
+                    item_expiration_date = null;
+                }
+
+                if (item_brand.isEmpty())
+                {
+                    item_brand = null;
+                }
+
                 System.out.println("Item Name: " + item_name);
                 System.out.println("Item Brand: " + item_brand);
                 System.out.println("Item Group: " + item_group);
@@ -344,6 +339,21 @@ public class AddItemPage extends AppCompatActivity {
                 System.out.println("Update Date: " + item_updated_date);
                 System.out.println("Item Type: " + item_type);
 
+
+                // If the expiration date is empty we need to change the insert query for the item
+                if (item_expiration_date == null)
+                {
+                    insertQuery = "INSERT INTO Item (item_name, brand_name, item_category, quantity, barcode, item_rating, percentage, price, expiration_date, last_updated_by, last_updated_date, type, item_priority, group_name) VALUES " +
+                            "('" + item_name + "', '" + item_brand + "', '" + item_category + "', " + item_quantity + ", " + item_barcode + ", " + item_rating  + ", " + item_percentage + ", " + item_price + ", " + item_expiration_date +
+                            ", '" + USERNAME + "', '" + item_updated_date + "', '" + item_type + "', " + item_priority + ", '" + item_group + "');";
+                }
+                else
+                {
+                    insertQuery = "INSERT INTO Item (item_name, brand_name, item_category, quantity, barcode, item_rating, percentage, price, expiration_date, last_updated_by, last_updated_date, type, item_priority, group_name) VALUES " +
+                            "('" + item_name + "', '" + item_brand + "', '" + item_category + "', " + item_quantity + ", " + item_barcode + ", " + item_rating  + ", " + item_percentage + ", " + item_price + ", '" + item_expiration_date +
+                            "', '" + USERNAME + "', '" + item_updated_date + "', '" + item_type + "', " + item_priority + ", '" + item_group + "');";
+                }
+
                 // If all fields and prerequisites pass then add the new item to the database
                 addNewItem();
                 showToast("Registered Item");
@@ -355,15 +365,14 @@ public class AddItemPage extends AppCompatActivity {
     {
         new Thread(() -> {
             try {
+                // Connect to the Gather Database
                 Database db = new Database();
                 connect = db.getConnection();
 
                 if (connect != null)
                 {
                     System.out.println("Create user Account function");
-                    String insertQuery = "INSERT INTO Item (item_name, brand_name, item_category, quantity, barcode, item_rating, percentage, price, expiration_date, last_updated_by, last_updated_date, type, item_priority, group_name) VALUES " +
-                            "('" + item_name + "', '" + item_brand + "', '" + item_category + "', '" + item_quantity + "', '" + item_barcode + "', '" + item_rating  + "', '" + item_percentage + "', '" + item_price + "', '" + item_expiration_date +
-                            "', '" + USERNAME + "', '" + item_updated_date + "', '" + item_type + "', '" + item_priority + "', '" + item_group + "');";
+                    // Create SQL QUERY
                     System.out.println(insertQuery);
                     // Create insert item query into gatherdb
                     Statement insertStatement = connect.createStatement();
@@ -375,6 +384,36 @@ public class AddItemPage extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // after inserting item reset all text fields to null
+                    resetAllTextFields();
+                }
+            });
         }).start();
+    }
+
+    public void resetAllTextFields()
+    {
+        EditText item_name_box = (EditText) findViewById(R.id.edit_item_name);
+        EditText item_brand_box = (EditText) findViewById(R.id.edit_brand_name);
+        EditText item_quantity_box = (EditText) findViewById(R.id.edit_quantity_text);
+        EditText item_barcode_box = (EditText) findViewById(R.id.edit_barcode_text);
+        EditText item_percentage_box = (EditText) findViewById(R.id.edit_percentage_text);
+        EditText item_price_box = (EditText) findViewById(R.id.edit_price_text);
+        EditText item_expiration_box = (EditText) findViewById(R.id.edit_expiration_date_text);
+
+        item_name_box.setText(null);
+        item_brand_box.setText(null);
+        item_quantity_box.setText(null);
+        item_barcode_box.setText(null);
+        item_percentage_box.setText(null);
+        item_price_box.setText(null);
+        item_expiration_box.setText(null);
+        autoGroupText.setText(null);
+        autoPriorityText.setText(null);
+        autoRatingText.setText(null);
+        autoCompleteText.setText(null);
     }
 }

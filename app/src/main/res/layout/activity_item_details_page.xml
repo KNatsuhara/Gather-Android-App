@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pale_green"
-    tools:context=".AddItemPage">
+    tools:context=".ItemDetailsPage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register Item"
+            android:text="Item Details"
             android:textColor="@color/white"
             android:textSize="25dp"
             app:layout_constraintBottom_toBottomOf="@+id/item_banner"
@@ -52,22 +52,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_banner" />
 
-            <EditText
-                android:id="@+id/edit_item_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="15"
-                android:layout_marginTop="30dp"
-                android:hint="Item (Required)*"
-                android:background="@drawable/edit_text_bg"
-                android:inputType="textPersonName"
-                android:padding="15dp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_banner"/>
+        <EditText
+            android:id="@+id/edit_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:layout_marginTop="30dp"
+            android:hint="Item (Required)*"
+            android:background="@drawable/edit_text_bg"
+            android:inputType="textPersonName"
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_banner"/>
 
         <EditText
             android:id="@+id/edit_brand_name"
@@ -120,14 +120,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/group_text">
-                <AutoCompleteTextView
-                    android:id="@+id/auto_complete_txt"
-                    android:padding="15dp"
-                    android:layout_width="274dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textColor="@color/white">
-                </AutoCompleteTextView>
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_txt"
+                android:padding="15dp"
+                android:layout_width="274dp"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/white">
+            </AutoCompleteTextView>
         </com.google.android.material.textfield.TextInputLayout>
 
         <EditText
@@ -259,17 +259,68 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_price_text" />
 
-        <Button
-            android:id="@+id/btn_register_item"
+        <TextView
+            android:id="@+id/last_updated_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register Item"
+            android:text="Last Updated By: "
+            android:ems="15"
             android:layout_marginTop="30dp"
+            android:background="@drawable/edit_text_bg"
             android:padding="15dp"
-            android:backgroundTint="@color/dark_green"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_expiration_date_text"/>
+            app:layout_constraintTop_toBottomOf="@+id/edit_expiration_date_text" />
+
+        <TextView
+            android:id="@+id/last_updated_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Updated Date: "
+            android:ems="15"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/edit_text_bg"
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/last_updated_text" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/last_updated_date">
+
+            <Button
+                android:id="@+id/btn_update_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dark_green"
+                android:text="Update"
+                android:layout_marginRight="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_expiration_date_text" />
+
+            <Button
+                android:id="@+id/btn_delete_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:layout_marginLeft="25dp"
+                android:text="Delete">
+            </Button>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -277,7 +328,7 @@
             android:id="@+id/blank"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_register_item"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout1"
             android:padding="15dp">
         </TextView>
 
